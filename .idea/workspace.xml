@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="42c693e0-6e31-4af1-89f2-d18fa1a99c79" name="Changes" comment="" />
+    <list default="true" id="42c693e0-6e31-4af1-89f2-d18fa1a99c79" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/CompanyKnowledgeAssistant.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/PDFProcessor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/chroma_db_load.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="6" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -13,6 +35,65 @@
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000008535624227" />
+      <entry key="MS500" value="1.0611289670904587" />
+      <entry key="S2" value="1.4972688460105" />
+      <entry key="S5" value="1.7772690225880003" />
+      <entry key="S10" value="2.1520245549079644" />
+      <entry key="S30" value="4.048078931531219" />
+      <entry key="S60" value="5.995482287720289" />
+      <entry key="M2" value="9.607003574174136" />
+      <entry key="M5" value="17.238788397101207" />
+      <entry key="M10" value="22.63460554667217" />
+      <entry key="M15" value="25.018791324052977" />
+      <entry key="M30" value="27.784348702617137" />
+      <entry key="H1" value="29.33112403695783" />
+      <entry key="H2" value="30.149653095579087" />
+      <entry key="H4" value="30.570765827401438" />
+      <entry key="D1" value="36.66680462585538" />
+      <entry key="W1" value="124.02026375342247" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="5.8448081525837754E-123" />
+      <entry key="S2" value="2.7649836350609093E-31" />
+      <entry key="S5" value="5.980718961927674E-13" />
+      <entry key="S10" value="7.903270797311726E-7" />
+      <entry key="S30" value="0.01544162969043626" />
+      <entry key="S60" value="0.2836297847495733" />
+      <entry key="M2" value="1.4209627375579517" />
+      <entry key="M5" value="3.952793096279598" />
+      <entry key="M10" value="5.610803471091888" />
+      <entry key="M15" value="6.311992297599831" />
+      <entry key="M30" value="7.104313066121921" />
+      <entry key="H1" value="7.538407898139165" />
+      <entry key="H2" value="7.765657365984835" />
+      <entry key="H4" value="7.8819280019958144" />
+      <entry key="D1" value="8.333098274742348" />
+      <entry key="W1" value="13.663487935225113" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.005719104686461758" />
+      <entry key="MS500" value="0.38484825179469917" />
+      <entry key="S2" value="1.1845550232510407" />
+      <entry key="S5" value="1.623464752981911" />
+      <entry key="S10" value="2.060454744723574" />
+      <entry key="S30" value="4.0057914347765635" />
+      <entry key="S60" value="6.227451555196853" />
+      <entry key="M2" value="10.97400493421938" />
+      <entry key="M5" value="21.147779326859332" />
+      <entry key="M10" value="28.21636193794987" />
+      <entry key="M15" value="31.309402384149053" />
+      <entry key="M30" value="34.87682944508092" />
+      <entry key="H1" value="36.863302325191306" />
+      <entry key="H2" value="37.91211350146801" />
+      <entry key="H4" value="38.45107431696975" />
+      <entry key="D1" value="44.99961984683743" />
+      <entry key="W1" value="137.6836892551312" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 6,
@@ -26,13 +107,29 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.chroma_db_load.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Ashish/Desktop/CompanyKnowledgeAssistant/tools",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ashish\Desktop\CompanyKnowledgeAssistant\tools" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
