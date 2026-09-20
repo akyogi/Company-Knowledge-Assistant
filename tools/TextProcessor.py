@@ -41,6 +41,7 @@ class TextProcessor :
             documents.append(ch)
             metadatas.append({"filename": self.name_file, "path": self.path_to_file, "chunk": i})
 
+        self.collection.delete_by_filename(self.name_file)
         # Add all chunks to ChromaDB
         self.collection.add(
             ids=ids,

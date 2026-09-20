@@ -20,12 +20,25 @@ class VectorDB :
         self.collection.upsert(ids=ids, embeddings=embeddings,
                                metadatas=metadatas, documents=documents)
 
-    def count(self):
-        return self.collection.count()
+    def count(self, where=None):
+        if not where:
+            return self.collection.count()
+        existing = self.collection.get(where=where, include=[])
+        return len(existing.get("ids") or [])
 
-    def query(self, query_embedding, top_k=5):
-        n_docs = self.collection.count()
+    def delete_by_filename(self, filename: str):
+        if self.count(where={"filename": filename}):
+            self.collection.delete(where={"filename": filename})
+
+    def query(self, query_embedding, top_k=5, where=None):
+        n_docs = self.count(where=where)
         if n_docs == 0:
             return {"documents": [[]], "metadatas": [[]], "distances": [[]]}
         n_results = min(top_k, n_docs)
-        return self.collection.query(query_embeddings=[query_embedding], n_results=n_results)
+        kwargs = {
+            "query_embeddings": [query_embedding],
+            "n_results": n_results,
+        }
+        if where:
+            kwargs["where"] = where
+        return self.collection.query(**kwargs)

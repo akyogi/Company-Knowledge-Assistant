@@ -14,15 +14,6 @@ router = APIRouter(
 )
 
 
-def _resolve_pdf_path(file_path: str, file_name: str) -> str:
-    if os.path.isfile(file_path):
-        return file_path
-    joined = os.path.join(file_path, file_name)
-    if os.path.isfile(joined):
-        return joined
-    return file_path
-
-
 def _extract_pdf_text(source) -> str:
     pdf_reader = PdfReader(source)
     text_content = ""
@@ -31,24 +22,19 @@ def _extract_pdf_text(source) -> str:
     return text_content.strip()
 
 
-@router.post("/", status_code=status.HTTP_202_ACCEPTED)
-async def get_response(
-    query: str = Form(...),
-    file_name: str = Form(...),
-    file_path: str = Form(...),
-    file: UploadFile | None = File(None),
-):
-    text_content = ""
-    resolved_path = _resolve_pdf_path(file_path, file_name)
+@router.post("/upload", status_code=status.HTTP_202_ACCEPTED)
+async def upload_pdf(file: UploadFile = File(...)):
+    file_name = os.path.basename(file.filename or "")
+    file_path = file.filename or file_name
+    if not file_name:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Uploaded file is missing a filename.",
+        )
 
     try:
-        if file is not None:
-            pdf_bytes = await file.read()
-            if pdf_bytes:
-                text_content = _extract_pdf_text(BytesIO(pdf_bytes))
-        if not text_content and os.path.isfile(resolved_path):
-            with open(resolved_path, "rb") as disk_file:
-                text_content = _extract_pdf_text(disk_file)
+        pdf_bytes = await file.read()
+        text_content = _extract_pdf_text(BytesIO(pdf_bytes)) if pdf_bytes else ""
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -59,20 +45,37 @@ async def get_response(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
-                "No extractable text found in the PDF. Upload the file in the "
-                "`file` form field, or pass a valid file_path (folder or full "
-                "path) plus file_name. Scanned PDFs without a text layer cannot be used."
+                "No extractable text found in the uploaded PDF. "
+                "Scanned PDFs without a text layer cannot be used."
             ),
         )
 
     pdf_processor = TextProcessor(
-        path_to_file=resolved_path,
+        path_to_file=file_path,
         name_file=file_name,
     )
     pdf_processor.process_whole_pdf(text_content)
 
+    return {
+        "message": "PDF indexed. You can now ask questions without uploading again.",
+        "file_name": file_name,
+    }
+
+
+@router.post("/ask", status_code=status.HTTP_202_ACCEPTED)
+async def ask_question(
+    query: str = Form(...),
+    file_name: str | None = Form(None),
+):
     query_processor = QueryProcessor()
-    answer, sources = query_processor.process_query(query)
+    answer, sources = query_processor.process_query(query, file_name=file_name)
+
+    if answer is None:
+        detail = (
+            f"No indexed PDF named '{file_name}'."
+            if file_name
+            else "No PDF has been indexed yet. Upload a file via POST /home/upload first."
+        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
 
     return {"answer": answer, "sources": sources}
-

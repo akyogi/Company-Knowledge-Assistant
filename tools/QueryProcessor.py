@@ -22,8 +22,9 @@ class QueryProcessor:
         query_embedding = self.embed_model.embed(query_text)
         return query_embedding
 
-    def retrieve_context(self, query_embedding, top_k=5, threshold=0.85):
-        results = self.vector_db.query(query_embedding, top_k=top_k)
+    def retrieve_context(self, query_embedding, top_k=5, threshold=0.85, file_name=None):
+        where = {"filename": file_name} if file_name else None
+        results = self.vector_db.query(query_embedding, top_k=top_k, where=where)
         chunks = results["documents"][0] or []
         metadata = results["metadatas"][0] or []
         distances = results["distances"][0] or []
@@ -69,10 +70,16 @@ class QueryProcessor:
         response = self.llm_model.generate(prompt)
         return response
 
-    def process_query(self, query_text):
-        """Main pipeline for handling a user query."""
+    def process_query(self, query_text, file_name=None):
+        """Main pipeline for handling a user query against already indexed PDFs."""
+        where = {"filename": file_name} if file_name else None
+        if self.vector_db.count(where=where) == 0:
+            return None, {"chunks": [], "metadata": []}
+
         query_embedding = self.vectorize_query(query_text)
-        retrieved_chunks, retrieve_metadata = self.retrieve_context(query_embedding)
+        retrieved_chunks, retrieve_metadata = self.retrieve_context(
+            query_embedding, file_name=file_name
+        )
         prompt = self.construct_prompt(query_text, retrieved_chunks, retrieve_metadata)
         response = self.generate_response(prompt)
         return response, {"chunks": retrieved_chunks, "metadata": retrieve_metadata}
