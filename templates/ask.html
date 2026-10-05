@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    #ask-response {
+      margin-top: 16px;
+    }
+    #ask-sources {
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div>
+    <nav class="navbar navbar-expand-md navbar-dark main-color fixed-top">
+        <a class="navbar-brand" href="#">Company Knowledge Assistant</a>
+    </nav>
+</div>
+
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#upload">Upload File</a>
+        </h4>
+      </div>
+      <div id="upload" class="panel-collapse collapse">
+        <div class="card mb-4">
+          <div class="card-body">
+            <form id="upload-form" method="post" action="{{ url_for('upload_pdf') }}" enctype="multipart/form-data">
+              <div class="mb-3">
+                <input class="form-control" type="file" id="pdfFile" name="file" accept="application/pdf" required>
+              </div>
+              <button type="submit" class="btn btn-primary" id="upload-btn">Upload PDF</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#ask">Ask!!</a>
+        </h4>
+      </div>
+      <div id="ask" class="panel-collapse collapse">
+        <div class="card">
+          <div class="card-body">
+            <form id="ask-form" method="post" action="{{ url_for('ask_question') }}">
+              <div class="mb-3">
+                <input class="form-control" type="text" id="query" name="query" placeholder="Ask about the uploaded PDF" required>
+              </div>
+              <button type="submit" class="btn btn-success" id="ask-btn">Get Answer</button>
+            </form>
+            <div id="ask-response" class="hidden">
+              <h4>Answer</h4>
+              <p id="ask-answer"></p>
+              <div id="ask-sources"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="upload-result-modal" tabindex="-1" role="dialog" aria-labelledby="upload-result-title">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="upload-result-title">Upload result</h4>
+      </div>
+      <div class="modal-body" id="upload-result-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    function parseErrorDetail(payload, fallback) {
+      if (!payload) return fallback;
+      if (typeof payload.detail === "string") return payload.detail;
+      if (Array.isArray(payload.detail)) {
+        return payload.detail.map(function (item) {
+          return item.msg || JSON.stringify(item);
+        }).join(" ");
+      }
+      return fallback;
+    }
+
+    function showUploadPopup(title, message) {
+      document.getElementById("upload-result-title").textContent = title;
+      document.getElementById("upload-result-body").textContent = message;
+      $("#upload-result-modal").modal("show");
+    }
+
+    document.getElementById("upload-form").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      var form = event.target;
+      var button = document.getElementById("upload-btn");
+      var fileInput = document.getElementById("pdfFile");
+      if (!fileInput.files.length) {
+        showUploadPopup("Upload failed", "Please choose a PDF file.");
+        return;
+      }
+
+      button.disabled = true;
+      try {
+        var response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form)
+        });
+        var payload = await response.json().catch(function () { return null; });
+        if (!response.ok) {
+          showUploadPopup("Upload failed", parseErrorDetail(payload, "Could not upload the PDF."));
+          return;
+        }
+        var message = payload.message || "PDF indexed.";
+        if (payload.file_name) {
+          message += " File: " + payload.file_name;
+        }
+        showUploadPopup("Upload successful", message);
+      } catch (error) {
+        showUploadPopup("Upload failed", "Could not reach the upload endpoint.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById("ask-form").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      var form = event.target;
+      var button = document.getElementById("ask-btn");
+      var responseBox = document.getElementById("ask-response");
+      var answerEl = document.getElementById("ask-answer");
+      var sourcesEl = document.getElementById("ask-sources");
+
+      responseBox.classList.remove("hidden");
+      answerEl.textContent = "Thinking...";
+      sourcesEl.textContent = "";
+      button.disabled = true;
+
+      try {
+        var response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form)
+        });
+        var payload = await response.json().catch(function () { return null; });
+        if (!response.ok) {
+          answerEl.textContent = parseErrorDetail(payload, "Could not get an answer.");
+          return;
+        }
+        answerEl.textContent = payload.answer || "";
+        var sources = payload.sources || {};
+        var metadata = sources.metadata || [];
+        var names = metadata.map(function (meta) {
+          return meta && meta.filename ? meta.filename : null;
+        }).filter(function (name, index, all) {
+          return name && all.indexOf(name) === index;
+        });
+        if (names.length) {
+          sourcesEl.textContent = "Sources: " + names.join(", ");
+        }
+      } catch (error) {
+        answerEl.textContent = "Could not reach the ask endpoint.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
