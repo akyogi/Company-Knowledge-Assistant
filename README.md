@@ -1,4 +1,7 @@
-<img width="1536" height="314" alt="image" src="https://github.com/user-attachments/assets/dd40d2db-61da-47c7-9284-80ff6f185008" /># Company Knowledge Assistant
+# Company Knowledge Assistant
+
+<img width="1527" height="298" alt="image" src="https://github.com/user-attachments/assets/bfde7c52-5fea-41ce-afba-e5b0e1700032" />
+
 
 A local RAG (retrieval-augmented generation) app: upload a PDF, index its text, then ask questions. Answers come from retrieved chunks plus a local LLM, with source filenames shown in the UI.
 
