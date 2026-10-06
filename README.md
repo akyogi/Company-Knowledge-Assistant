@@ -1,4 +1,4 @@
-# Company Knowledge Assistant
+<img width="1536" height="314" alt="image" src="https://github.com/user-attachments/assets/dd40d2db-61da-47c7-9284-80ff6f185008" /># Company Knowledge Assistant
 
 A local RAG (retrieval-augmented generation) app: upload a PDF, index its text, then ask questions. Answers come from retrieved chunks plus a local LLM, with source filenames shown in the UI.
 
@@ -84,4 +84,32 @@ llmmodels/LLMModel.py   Answer generation via Ollama
 llmmodels/VectorDB.py   Chroma client (persistent)
 ```
 
-`tools/chroma_db_load.py` is a leftover helper that points at a different path (`./pdf_db`) and is not used by the FastAPI routes.
+##### Upload PDF
+<img width="1420" height="401" alt="image" src="https://github.com/user-attachments/assets/080d0140-a5e3-474c-8036-fbcac80e07c7" />
+
+##### Ask Query
+<img width="1420" height="401" alt="image" src="https://github.com/user-attachments/assets/eaafff3c-184e-49e8-ab30-7911284798fa" />
+
+#### Sample UI 
+a) Upload PDFs : 
+<img width="1525" height="187" alt="image" src="https://github.com/user-attachments/assets/24216ed9-8852-4b12-8aae-c69aa152ebba" />
+
+<img width="1517" height="203" alt="image" src="https://github.com/user-attachments/assets/90a6ca9e-9cf5-497c-bc14-e2a818d36e43" />
+
+b) Ask queries : 
+<img width="1537" height="274" alt="image" src="https://github.com/user-attachments/assets/09e4eae4-a45d-40ae-836a-6239e165f9f0" />
+
+<img width="1526" height="327" alt="image" src="https://github.com/user-attachments/assets/1b93eb2f-b018-4c2e-b640-60ce39e67cab" />
+
+<img width="1520" height="368" alt="image" src="https://github.com/user-attachments/assets/5e69d2d9-b1f9-4ba8-b7f1-c4b147a0afbd" />
+
+
+
+
+
+
+
+
+
+
+
