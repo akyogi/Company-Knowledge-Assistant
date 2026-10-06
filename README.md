@@ -92,16 +92,19 @@ llmmodels/VectorDB.py   Chroma client (persistent)
 
 #### Sample UI 
 a) Upload PDFs : 
-<img width="1525" height="187" alt="image" src="https://github.com/user-attachments/assets/24216ed9-8852-4b12-8aae-c69aa152ebba" />
+<img width="1537" height="181" alt="image" src="https://github.com/user-attachments/assets/6c3509b3-ede4-492e-9925-ee52c72d314c" />
 
-<img width="1517" height="203" alt="image" src="https://github.com/user-attachments/assets/90a6ca9e-9cf5-497c-bc14-e2a818d36e43" />
+<img width="1533" height="244" alt="image" src="https://github.com/user-attachments/assets/fa2563ec-3ba1-4db1-9364-94bff5e7a7c3" />
 
 b) Ask queries : 
-<img width="1537" height="274" alt="image" src="https://github.com/user-attachments/assets/09e4eae4-a45d-40ae-836a-6239e165f9f0" />
+<img width="1531" height="238" alt="image" src="https://github.com/user-attachments/assets/797dbaad-6065-4241-9829-c8ff7443ed4c" />
 
-<img width="1526" height="327" alt="image" src="https://github.com/user-attachments/assets/1b93eb2f-b018-4c2e-b640-60ce39e67cab" />
+<img width="1520" height="312" alt="image" src="https://github.com/user-attachments/assets/a464b224-eb99-46a9-8c98-3319153d46ed" />
 
-<img width="1520" height="368" alt="image" src="https://github.com/user-attachments/assets/5e69d2d9-b1f9-4ba8-b7f1-c4b147a0afbd" />
+<img width="1524" height="353" alt="image" src="https://github.com/user-attachments/assets/a57cd92a-e85a-4f50-9490-e58235235393" />
+
+
+
 
 
 
